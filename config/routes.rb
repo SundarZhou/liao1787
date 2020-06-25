@@ -6,5 +6,11 @@ Rails.application.routes.draw do
     root :to => 'dashboard#index'
     get '/setting' => 'dashboard#edit'
     post '/setting' => 'dashboard#update'
+
+    resources :accounts
+    get "download" => 'accounts#download'
+    get "batch_destroy" => 'accounts#batch_destroy'
   end
+
+  get "import_data" => 'accounts#import_data'
 end

@@ -1,2 +1,0 @@
-class Abnormal < ApplicationRecord
-end
