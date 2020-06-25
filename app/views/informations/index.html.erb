@@ -1,0 +1,141 @@
+<% provide(:title, "导入数据") %>
+<h1 class="page-header">导入数据</h1>
+<div class="table-responsive">
+  <%= link_to '导入数据', new_information_path, class: 'btn btn-success' %>
+</div>
+<hr>
+<% if @informations.any? %>
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :check, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-ok text-success"> </i>全选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :uncheck, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-remove text-danger"> </i>全不选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :toggle, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-refresh text-warning"> </i>反选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to "#", id: 'batch_destroy' do %>
+          <i class="glyphicon glyphicon-trash text-primary"> </i>删除选中
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to "#", id: 'batch' do %>
+          <i class="glyphicon glyphicon-download-alt text-primary"> </i>批量修改状态为未使用
+        <% end %>
+      </p>
+    </div>
+  </div>
+  <hr>
+  <h3>数据总量：<%= @informations.count %></h3>
+  <hr>
+  <table class="table table-hover table-responsive">
+    <thead>
+      <tr>
+        <th width="5%"></th>
+        <th width="15%">帐号</th>
+        <th width="50%">链接</th>
+        <th width="10%">状态</th>
+        <th width="20%">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @informations.each do |information| %>
+      <tr>
+        <td>
+          <label>
+            <%= check_box_tag "information_ids[#{information.id}]", information.id, false, :class => 'ace ace-checkbox-1 information-checkbox' %>
+            <span class="lbl"> </span>
+          </label>
+        </td>
+        <td><%= information.account %></td>
+        <td class="hidden_text"><%= information.link %></td>
+        <% if information.is_use == 2 %>
+          <td class="text-danger">注册成功</td>
+        <% elsif information.is_use == 1 %>
+          <td class="text-info">待修改</td>
+        <% else %>
+           <td class="text-success">未使用</td>
+        <% end %>
+        <td>
+          <%= link_to '改为未使用', information_path(information), class: 'btn btn-info', method: :put %>
+          <%= link_to '删除', information_path(information), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
+
+        </td>
+
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<script>
+  $('[data-toggle=checkboxes][data-action=check]').click(function(e){
+    e.preventDefault();
+    $('.information-checkbox').prop('checked', true)
+    return false;
+  });
+
+  $('[data-toggle=checkboxes][data-action=uncheck]').click(function(e){
+    e.preventDefault();
+    $('.information-checkbox').prop('checked', false)
+    return false;
+  });
+
+  $('[data-toggle=checkboxes][data-action=toggle]').click(function(e){
+    e.preventDefault();
+    var checkboxes = $('.information-checkbox');
+    for(var i = 0; i<checkboxes.length; i++){
+      var status = $(checkboxes[i]).prop('checked');
+      $(checkboxes[i]).prop('checked', !status);
+    }
+    return false;
+  });
+
+
+  $("#batch_destroy").click(function () {
+    var information_ids = [];
+    $.each($('.information-checkbox:checked'), function () {
+      information_ids.push($(this).val());
+    });
+
+    if (information_ids.length > 0) {
+      $("#batch_destroy").attr("href", "destroy_informations?information_ids="+information_ids)
+      setTimeout(function(){
+        window.location.reload()
+      },2000);
+    } else {
+      alert('你没有勾选任何帐号!');
+      $("#batch_destroy").attr("href", "#")
+    }
+  })
+
+  $("#batch").click(function () {
+    var information_ids = [];
+    $.each($('.information-checkbox:checked'), function () {
+      information_ids.push($(this).val());
+    });
+
+    if (information_ids.length > 0) {
+      $("#batch").attr("href", "batch_update?information_ids="+information_ids)
+      setTimeout(function(){
+        window.location.reload()
+      },2000);
+    } else {
+      alert('你没有勾选任何帐号!');
+      $("#batch").attr("href", "#")
+    }
+  });
+
+</script>

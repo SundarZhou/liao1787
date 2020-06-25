@@ -1,0 +1,9 @@
+<% provide(:title, '导入数据') %>
+<h1 class="page-header">导入数据</h1>
+
+<div class="bs-example">
+<%= simple_form_for @information, url: informations_path, html: {multipart: true, class: 'form'} do |f| %>
+  <%= render :partial => 'form', :locals => { :f => f } %>
+  <%= f.submit '导入数据', :class => 'btn btn-success', 'data-disable-with' => '提交中...' %>
+<% end %>
+</div>

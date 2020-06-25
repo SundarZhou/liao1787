@@ -1,0 +1,13 @@
+<% provide(:title, "控制面板") %>
+<h1 class="page-header">控制面板</h1>
+
+<div class="table-responsive">
+  <%= link_to '系统设置', setting_path, class: 'btn btn-success' %>
+  <hr/>
+</div>
+
+<div class="table-responsive">
+  <ul>
+    <li>当前帐号：<strong style="color:orange"><%= current_user.email %></strong></li>
+  </ul>
+</div>

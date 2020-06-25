@@ -1,0 +1,142 @@
+<% provide(:title, "帐号列表") %>
+<h1 class="page-header">帐号列表</h1>
+<% if @accounts.any? %>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :check, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-ok text-success"> </i>全选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :uncheck, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-remove text-danger"> </i>全不选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :toggle, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-refresh text-warning"> </i>反选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to download_path, id: 'download', target: '_blank' do %>
+          <i class="glyphicon glyphicon-download-alt text-primary"> </i>导出
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to "#", id: 'batch_destroy' do %>
+          <i class="glyphicon glyphicon-trash text-primary"> </i>删除选中
+        <% end %>
+      </p>
+    </div>
+  </div>
+  <hr>
+  <h3>帐号总量：<%= @accounts.count %></h3>
+  <hr>
+  <table class="table table-hover table-responsive">
+    <thead>
+      <tr>
+        <th width="2%"></th>
+        <th width="13%">手机号码</th>
+        <th width="10%">密码</th>
+        <th width="30%">数据</th>
+        <th width="10%">状态</th>
+        <th width="10%">上传作者</th>
+        <td width="10%">短信api</td>
+        <th width="10%">时间</th>
+        <th width="5%">操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @accounts.each do |account| %>
+      <tr>
+        <td>
+          <label>
+            <%= check_box_tag "account_ids[#{account.id}]", account.id, false, :class => 'ace ace-checkbox-1 account-checkbox' %>
+            <span class="lbl"> </span>
+          </label>
+        </td>
+        <td><%= account.phone %></td>
+        <td class="hidden_text"><%= account.password %></td>
+        <td class="hidden_text" title="<%= account.token %>"><%= account.token %></td>
+        <% if account.is_export %>
+          <td class="text-danger">已导出</td>
+        <% else %>
+          <td class="text-info">未导出</td>
+        <% end %>
+        <td><%= account.operator %></td>
+         <td class="hidden_text"><%= account.link %></td>
+        <td><%= account.time %></td>
+        <td>
+          <%= link_to '删除', account_path(account.id, is_normal: params[:is_normal]), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
+        </td>
+
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<script>
+  $('[data-toggle=checkboxes][data-action=check]').click(function(e){
+    e.preventDefault();
+    $('.account-checkbox').prop('checked', true)
+    return false;
+  });
+
+  $('[data-toggle=checkboxes][data-action=uncheck]').click(function(e){
+    e.preventDefault();
+    $('.account-checkbox').prop('checked', false)
+    return false;
+  });
+
+  $('[data-toggle=checkboxes][data-action=toggle]').click(function(e){
+    e.preventDefault();
+    var checkboxes = $('.account-checkbox');
+    for(var i = 0; i<checkboxes.length; i++){
+      var status = $(checkboxes[i]).prop('checked');
+      $(checkboxes[i]).prop('checked', !status);
+    }
+    return false;
+  });
+
+
+  $("#download").click(function () {
+    var account_ids = [];
+    $.each($('.account-checkbox:checked'), function () {
+      account_ids.push($(this).val());
+    });
+
+    if (account_ids.length > 0) {
+      $("#download").attr("href", "download?account_ids="+account_ids)
+      setTimeout(function(){
+        window.location.reload()
+      },2000);
+    } else {
+      alert('你没有勾选任何帐号!');
+      $("#download").attr("href", "#")
+    }
+  });
+  $("#batch_destroy").click(function () {
+    var account_ids = [];
+    $.each($('.account-checkbox:checked'), function () {
+      account_ids.push($(this).val());
+    });
+
+    if (account_ids.length > 0) {
+      $("#batch_destroy").attr("href", "batch_destroy?account_ids="+account_ids)
+      setTimeout(function(){
+        window.location.reload()
+      },2000);
+    } else {
+      alert('你没有勾选任何帐号!');
+      $("#batch_destroy").attr("href", "#")
+    }
+  })
+
+
+</script>

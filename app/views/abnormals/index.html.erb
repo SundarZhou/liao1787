@@ -1,0 +1,130 @@
+<% provide(:title, "异常号码") %>
+<h1 class="page-header">异常号码</h1>
+<% if @abnormals.any? %>
+
+  <div class="row-fluid">
+    <div class="span6">
+      <p>
+        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :check, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-ok text-success"> </i>全选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :uncheck, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-remove text-danger"> </i>全不选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to 'javascript::void(0);', :data => {:toggle => :checkboxes, :action => :toggle, :range => 'true'} do %>
+          <i class="glyphicon glyphicon-refresh text-warning"> </i>反选
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to download_path, id: 'download', target: '_blank' do %>
+          <i class="glyphicon glyphicon-download-alt text-primary"> </i>导出
+        <% end %>
+
+        <span> / </span>
+
+        <%= link_to "#", id: 'batch_destroy' do %>
+          <i class="glyphicon glyphicon-trash text-primary"> </i>删除选中
+        <% end %>
+      </p>
+    </div>
+  </div>
+  <hr>
+  <h3>帐号总量：<%= @abnormals.count %></h3>
+  <hr>
+  <table class="table table-hover table-responsive">
+    <thead>
+      <tr>
+        <th width="2%"></th>
+        <th>手机号码</th>
+        <th>验证码</th>
+        <th>时间</th>
+        <th>操作</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @abnormals.each do |abnormal| %>
+      <tr>
+        <td>
+          <label>
+            <%= check_box_tag "abnormal_ids[#{abnormal.id}]", abnormal.id, false, :class => 'ace ace-checkbox-1 abnormal-checkbox' %>
+            <span class="lbl"> </span>
+          </label>
+        </td>
+        <td><%= abnormal.phone %></td>
+        <td class="hidden_text"><%= abnormal.code %></td>
+        <td><%= abnormal.created_at.strftime("%Y-%m-%d %H:%M") %></td>
+        <td>
+          <%= link_to '删除', abnormal_path(abnormal.id, is_normal: params[:is_normal]), class: 'btn btn-danger', data:{confirm: '确定删除吗?'}, method: :delete %>
+        </td>
+
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
+<script>
+  $('[data-toggle=checkboxes][data-action=check]').click(function(e){
+    e.preventDefault();
+    $('.abnormal-checkbox').prop('checked', true)
+    return false;
+  });
+
+  $('[data-toggle=checkboxes][data-action=uncheck]').click(function(e){
+    e.preventDefault();
+    $('.abnormal-checkbox').prop('checked', false)
+    return false;
+  });
+
+  $('[data-toggle=checkboxes][data-action=toggle]').click(function(e){
+    e.preventDefault();
+    var checkboxes = $('.abnormal-checkbox');
+    for(var i = 0; i<checkboxes.length; i++){
+      var status = $(checkboxes[i]).prop('checked');
+      $(checkboxes[i]).prop('checked', !status);
+    }
+    return false;
+  });
+
+
+  $("#download").click(function () {
+    var abnormal_ids = [];
+    $.each($('.abnormal-checkbox:checked'), function () {
+      abnormal_ids.push($(this).val());
+    });
+
+    if (abnormal_ids.length > 0) {
+      $("#download").attr("href", "download_abnormals?abnormal_ids="+abnormal_ids)
+      setTimeout(function(){
+        window.location.reload()
+      },2000);
+    } else {
+      alert('你没有勾选任何帐号!');
+      $("#download").attr("href", "#")
+    }
+  });
+  $("#batch_destroy").click(function () {
+    var abnormal_ids = [];
+    $.each($('.abnormal-checkbox:checked'), function () {
+      abnormal_ids.push($(this).val());
+    });
+
+    if (abnormal_ids.length > 0) {
+      $("#batch_destroy").attr("href", "batch_destroy_ab?abnormal_ids="+abnormal_ids)
+      setTimeout(function(){
+        window.location.reload()
+      },2000);
+    } else {
+      alert('你没有勾选任何帐号!');
+      $("#batch_destroy").attr("href", "#")
+    }
+  })
+
+
+</script>

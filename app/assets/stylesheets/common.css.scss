@@ -1,0 +1,280 @@
+@import "bootstrap-sprockets";
+@import "bootstrap";
+
+//body {
+//  padding-top: 60px;
+//  padding-bottom: 40px;
+//}
+//
+//.sidebar-nav {
+//  padding: 9px 0;
+//}
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+  padding-top: 50px;
+}
+.xxx{
+  a:hover{
+    text-decoration: none;
+  }
+}
+
+h1{ font-size: 1.8em; }
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+  border: 0;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}
+
+
+/*
+ * Main content
+ */
+
+.main {
+  padding: 20px;
+}
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+.main .page-header {
+  margin-top: 0;
+}
+
+
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
+}
+.placeholders h4 {
+  margin-bottom: 0;
+}
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+
+
+/* css reset */
+
+///* HTML5 display-role reset for older browsers */
+//article, aside, details, figcaption, figure,
+//footer, header, hgroup, menu, nav, section {
+//  display: block;
+//}
+//body {
+//  line-height: 1;
+//}
+//ol, ul {
+//  list-style: none;
+//}
+//blockquote, q {
+//  quotes: none;
+//}
+//blockquote:before, blockquote:after,
+//q:before, q:after {
+//  content: '';
+//  content: none;
+//}
+//table {
+//  border-collapse: collapse;
+//  border-spacing: 0;
+//}
+
+
+/* mixins, variables, etc. */
+
+
+@mixin box_sizing {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* universal */
+
+
+
+/* header */
+
+
+/* footer */
+
+
+/* sidebar */
+
+
+/* category */
+
+
+/* forms */
+/* signin */
+//.user-form {
+//
+//}
+//.user-form h1{
+//  margin-bottom:10px;
+//  text-align:center;
+//}
+
+.select2-container{ width :100%!important;  }
+
+.remain_percent_text { width:180px; margin-right:5px; margin-bottom:5px; display:inline;}
+
+.field_with_errors input, .field_with_errors textarea{ border:1px solid #f00;}
+
+/* miscellaneous */
+
+.debug_dump {
+  clear: both;
+  float: left;
+  width: 100%;
+  margin-top: 45px;
+  @include box_sizing;
+}
+.table-condensed{
+  margin-top:40px;
+}
+.size{
+  width: 100px;
+}
+// .form-control{
+//   width: 25%;
+//   border-radius:3px;
+//}
+// .form-control-01{
+//     width: 50%;
+//     height: 90px;
+// }
+// .form-control-02{
+//     width: 15%;
+// }
+.btn-default{
+  background-color: #428bca;
+  color: #fff;
+  border-color:#428bca;
+}
+// .form-inline{
+//   margin: 0px 0px 30px 0px;
+// }
+.admin_message{
+  text-align: right;
+  margin-top: 30px;
+}
+
+.bg_img ,.avatar{
+  max-width: 10%;
+  margin-bottom: 20px;
+}
+.table{
+  table-layout:fixed;
+}
+.table thead tr td{
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+}
+.hidden_text{
+  text-overflow:ellipsis;
+  overflow:hidden;
+  white-space:nowrap;
+}

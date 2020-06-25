@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?dd862f1763d112c12f86260dc60dbab6";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<head>
+  <title><%= full_title(yield(:title)) %></title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= yield(:stylesheet) %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= yield(:javascript) %>
+  <%= csrf_meta_tags %>
+</head>
+<body id="<%= "#{controller_name}-#{action_name}" %>">
+<%= render 'layouts/header' %>
+<div class="container-fluid">
+  <div class="row">
+  <% if current_user %>
+  <%= render 'layouts/sidebar' %>
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+      <div class="row">
+        <% flash.each do |key, value| %>
+        <% (key == 'notice' || key == 'alert')? key = 'warning': '' %>
+        <%= content_tag(:div, value, class: "alert alert-#{key}") %>
+        <% end %>
+      </div>
+      <%= yield %>
+      <hr>
+      <%= render 'layouts/footer' %>
+      <%= debug(params) if Rails.env.development? %>
+    </div>
+  <% else %>
+  <%= yield %>
+  <% end %>
+  </div>
+</div>
+
+</body>
+</html>
