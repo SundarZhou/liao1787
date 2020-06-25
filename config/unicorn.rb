@@ -13,7 +13,7 @@ pid "#{Rails.root}/tmp/pids/unicorn.pid"
 stderr_path "#{Rails.root}/log/unicorn.log"
 stdout_path "#{Rails.root}/log/unicorn.log"
 
-listen "/tmp/unicorn.background.sock"       
+listen "/tmp/unicorn.liao1787.sock"
 worker_processes 1
 timeout 30
 
